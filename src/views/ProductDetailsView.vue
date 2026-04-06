@@ -24,9 +24,16 @@
         ${{ product.price }}
       </p>
 
-      <p class="text-gray-700 leading-7">
+      <p class="text-gray-700 leading-7 mb-6">
         {{ product.description }}
       </p>
+
+      <button
+        @click="addToCart"
+        class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700"
+      >
+        Add to Cart
+      </button>
     </div>
 
     <p v-else class="text-center text-gray-500">Loading product...</p>
@@ -36,11 +43,21 @@
 <script setup lang="ts">
 import axios from 'axios'
 import { ref, onMounted } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import type { Product } from '../types/Product'
+import { cart } from '../store/cart'
 
 const route = useRoute()
+const router = useRouter()
 const product = ref<Product | null>(null)
+
+const addToCart = () => {
+  if (product.value) {
+    cart.add(product.value)
+    alert('Added to cart!')
+    router.push('/cart')
+  }
+}
 
 onMounted(async () => {
   const id = route.params.id
