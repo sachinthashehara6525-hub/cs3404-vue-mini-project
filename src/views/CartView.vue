@@ -9,14 +9,33 @@
 
     <h1 class="text-3xl font-bold mb-6">Shopping Cart</h1>
 
-    <div v-if="cart.items.length === 0" class="text-gray-500">
-      Your cart is empty.
+    <div
+      v-if="cart.items.length === 0"
+      class="bg-white rounded-lg shadow p-8 text-center"
+    >
+      <p class="text-xl text-gray-600 mb-4">Your cart is empty.</p>
+
+      <router-link
+        to="/"
+        class="inline-block bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700"
+      >
+        Continue Shopping
+      </router-link>
     </div>
 
     <div v-else>
-      <p class="mb-4 text-gray-700 font-medium">
-        Total Items: {{ cart.getTotalItems() }}
-      </p>
+      <div class="flex justify-between items-center mb-4">
+        <p class="text-gray-700 font-medium">
+          Total Items: {{ cart.getTotalItems() }}
+        </p>
+
+        <button
+          @click="cart.clear()"
+          class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+        >
+          Clear Cart
+        </button>
+      </div>
 
       <div class="space-y-4 mb-6">
         <div
@@ -32,10 +51,10 @@
 
           <div class="flex-1">
             <h2 class="text-lg font-semibold">{{ item.title }}</h2>
-            <p class="text-green-600 font-bold">${{ item.price }}</p>
+            <p class="text-green-600 font-bold">${{ item.price.toFixed(2) }}</p>
             <p class="text-gray-600">Quantity: {{ item.quantity }}</p>
             <p class="text-gray-800 font-medium">
-              Subtotal: ${{ item.price * item.quantity }}
+              Subtotal: ${{ (item.price * item.quantity).toFixed(2) }}
             </p>
           </div>
 
@@ -64,10 +83,17 @@
         </div>
       </div>
 
-      <div class="bg-white rounded-lg shadow p-4">
+      <div class="bg-white rounded-lg shadow p-4 flex justify-between items-center">
         <h2 class="text-2xl font-bold">
-          Total Price: ${{ cart.getTotalPrice() }}
+          Total Price: ${{ cart.getTotalPrice().toFixed(2) }}
         </h2>
+
+        <router-link
+          to="/"
+          class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700"
+        >
+          Continue Shopping
+        </router-link>
       </div>
     </div>
   </div>

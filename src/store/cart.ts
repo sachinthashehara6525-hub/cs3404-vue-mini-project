@@ -48,6 +48,10 @@ export const cart = reactive({
     }
   },
 
+  clear() {
+    this.items = []
+  },
+
   getTotalPrice() {
     return this.items.reduce((total, item) => {
       return total + item.price * item.quantity
